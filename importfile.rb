@@ -1,5 +1,5 @@
 class NewFile
-
+#imports a text file
   def self.open_file(file_input)
     file_data = []
     File.open(file_input, "r") do |file|

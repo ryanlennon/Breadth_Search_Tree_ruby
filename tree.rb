@@ -1,10 +1,9 @@
-require "importfile"
-require "node"
+require_relative "importfile.rb"
+require_relative "node.rb"
+require_relative "breadthsearch.rb"
 
 class Tree
   
-  
-
   def self.input_split
     @nodes_storage_array = []
     @queries_storage_array = []
@@ -64,8 +63,26 @@ class Tree
     @tree_node_array.find {|tree_node| tree_node.number == number }
   end
 
-  def self.output(file_data)
+  def self.add_nodes(input_node_array)
+    tree_path = []
+    if input_node_array[1].to_i === 1
+      @tree_node_array.each do |tree_node|
+        tree_node.value += input_node_array[2].to_i
+      end
+    else
+      start_node = find_node(input_node_array[1])
+      bf_search = BreadthSearch.new(start_node)
+      quickest_path = bf_search.shortest_path(find_node("1"))
+      tree_path << tree_traversal(start_node, quickest_path)
+      tree_path.flatten.each do |path|
+        path.value += input_node_array[2].to_i
+      end
+    end
+  end
+
+  def self.final_output(file_data)
     @tree_data = NewFile.open_file(file_data)
     input_split
     build_tree
   end
+end
