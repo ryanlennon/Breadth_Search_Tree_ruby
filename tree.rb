@@ -1,11 +1,9 @@
+require "importfile"
+require "node"
+
 class Tree
   
-  def self.output(file_data)
-    @tree_data = NewFile.open_file(file_data)
-    input_split
-    build_tree
-    read_queries
-  end
+  
 
   def self.input_split
     @nodes_storage_array = []
@@ -21,8 +19,6 @@ class Tree
       end
     end
     @query_number = @nodes_storage_array.pop
-    p @nodes_storage_array
-    @queries_storage_array
   end
 
   def self.build_tree
@@ -36,6 +32,28 @@ class Tree
       edges = connected_nodes(tree_node.number).flatten.uniq
       edges.each { |edge| tree_node.edges << find_node(edge) }
     end
+    @queries_storage_array.each do |queries|
+      if queries[0] === "add"
+        add_nodes(queries)
+      else
+        find_max(queries)
+      end
+    end
+  end
+
+  def self.tree_traversal(input_node, node_path)
+    nodes_visited = [input_node]
+    list = []
+    list << input_node
+    while list.any?
+      current_node = list.shift
+      current_node.edges.each do |edge|
+        next if nodes_visited.include?(edge) || node_path.include?(edge)
+        list << edge
+        nodes_visited << edge
+      end
+    end
+    nodes_visited
   end
 
   def self.connected_nodes(node_number)
@@ -44,4 +62,10 @@ class Tree
 
   def self.find_node(number)
     @tree_node_array.find {|tree_node| tree_node.number == number }
+  end
+
+  def self.output(file_data)
+    @tree_data = NewFile.open_file(file_data)
+    input_split
+    build_tree
   end
