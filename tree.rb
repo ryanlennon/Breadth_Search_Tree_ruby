@@ -80,6 +80,18 @@ class Tree
     end
   end
 
+  def self.find_max(input_nodes)
+    start_node = find_node(input_nodes[1])
+    end_node = find_node(input_nodes[2])
+    node_values = []
+    bf_search = BreadthSearch.new(start_node)
+    tree_path = bf_search.shortest_path(end_node)
+    tree_path.each do |path|
+      node_values << path.value
+    end
+    p node_values.max
+  end
+
   def self.final_output(file_data)
     @tree_data = NewFile.open_file(file_data)
     input_split
