@@ -36,3 +36,10 @@ class Tree
       edges = connected_nodes(tree_node.number).flatten.uniq
       edges.each { |edge| tree_node.edges << find_node(edge) }
     end
+  end
+
+  def self.connected_nodes(node_number)
+    @nodes_storage_array.select { |storage_array| storage_array.include?(node_number) }
+  end
+
+  
