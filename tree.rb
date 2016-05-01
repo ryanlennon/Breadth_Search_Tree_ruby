@@ -24,3 +24,15 @@ class Tree
     p @nodes_storage_array
     @queries_storage_array
   end
+
+  def self.build_tree
+    @tree_node_array = []
+    individual_nodes = @nodes_storage_array.flatten.uniq
+    individual_nodes.each do |node|
+      tree_node = Node.new(node)
+      @tree_node_array << tree_node 
+    end
+    @tree_node_array.each do |tree_node|
+      edges = connected_nodes(tree_node.number).flatten.uniq
+      edges.each { |edge| tree_node.edges << find_node(edge) }
+    end
