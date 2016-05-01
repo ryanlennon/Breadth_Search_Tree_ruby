@@ -42,4 +42,6 @@ class Tree
     @nodes_storage_array.select { |storage_array| storage_array.include?(node_number) }
   end
 
-  
+  def self.find_node(number)
+    @tree_node_array.find {|tree_node| tree_node.number == number }
+  end
